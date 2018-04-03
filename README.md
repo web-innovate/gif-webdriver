@@ -31,7 +31,7 @@
         driver.quit();
 
         // if you want to control when gifs are generated you can do it through the API
-        gifDriver.getGifScreenshotWorker().createGif();
+        File createdGif = gifDriver.getGifScreenshotWorker().createGif();
 
         //of course you can create screenshots explicitly
         gifDriver.getGifScreenshotWorker().takeScreenshot();
