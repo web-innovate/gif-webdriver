@@ -84,11 +84,13 @@ public class GifScreenshotWorker {
 
     /**
      * Creates the GIF and writes it on the disk
+     *
+     * @return - generated GIF {@link File}, null when the gif could not be generated due to lack of screenshots
      */
-    public void createGif() {
+    public File createGif() {
         if (screenshotsTaken.isEmpty()) {
             logger.info("There are no screenshots to process");
-            return;
+            return null;
         }
 
         try {
@@ -102,7 +104,7 @@ public class GifScreenshotWorker {
             }
 
             ImageOutputStream output =
-                new FileImageOutputStream(new File(getGeneratedGIFsFolderName() + uniqueName + ".gif"));
+                new FileImageOutputStream(outputFile);
 
             Giffer gif = new Giffer(
                 output,
@@ -123,11 +125,13 @@ public class GifScreenshotWorker {
 
             // we don't want to have same images in a new gif :)
             screenshotsTaken.clear();
+
+            return outputFile;
         } catch (Throwable e) {
             logger.warn("Gif could not be created or saved");
             logger.trace(e);
         }
-
+        return null;
     }
 
     /**
