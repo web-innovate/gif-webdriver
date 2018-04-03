@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.bogdanlivadariu</groupId>
   <artifactId>gif-webdriver</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>GIF WebDriver wrapper</name>
   <description>Wrapper on top of webdriver that is able to generate a GIF during the execution of a test</description>
   <url>https://github.com/web-innovate/gif-webdriver</url>
@@ -26,7 +25,7 @@
   <scm>
     <url>https://github.com/web-innovate/gif-webdriver</url>
     <connection>scm:git:git@github.com:web-innovate/gif-webdriver.git</connection>
-    <tag>${project.version}</tag>
+    <tag>1.0.1</tag>
   </scm>
   <developers>
     <developer>
@@ -139,7 +138,7 @@
             <format>html</format>
             <format>xml</format>
           </formats>
-          <check/>
+          <check />
         </configuration>
       </plugin>
       <plugin>
