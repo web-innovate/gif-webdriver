@@ -1,9 +1,11 @@
 package com.github.bogdanlivadariu.gifwebdriver;
 
+import org.apache.commons.io.FileUtils;
 import org.mockito.Mock;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -35,6 +37,17 @@ public class GifScreenshotWorkerTest {
     @BeforeMethod
     private void setup() {
         worker = new GifScreenshotWorker(null);
+    }
+
+    @AfterMethod
+    private void tearDown() throws IOException {
+        File root = new File(worker.getRootDir());
+
+        if (root.getParentFile() != null && root.getParentFile().exists()) {
+            FileUtils.deleteDirectory(root.getParentFile());
+        } else {
+            FileUtils.deleteDirectory(root);
+        }
     }
 
     public void testTakeScreenshotOnNullDriver() {

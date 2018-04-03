@@ -75,8 +75,9 @@ public class GifScreenshotWorker {
             logger.info(String.format("Screenshot taken at: '%s'", screenshotFile.getAbsolutePath()));
 
             screenshotsTaken.add(screenshotFile.getAbsolutePath());
-        } catch (Exception e) {
-            logger.error("Screenshot could not be taken or saved", e);
+        } catch (Throwable e) {
+            logger.warn("Screenshot could not be taken or saved");
+            logger.trace(e);
         }
     }
 
@@ -121,8 +122,9 @@ public class GifScreenshotWorker {
 
             // we don't want to have same images in a new gif :)
             screenshotsTaken.clear();
-        } catch (Exception e) {
-            logger.error("Gif could not be created or saved", e);
+        } catch (Throwable e) {
+            logger.warn("Gif could not be created or saved");
+            logger.trace(e);
         }
 
     }
