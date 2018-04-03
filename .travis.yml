@@ -1,0 +1,11 @@
+sudo: false
+language: java
+jdk:
+  - oraclejdk8
+cache:
+  directories:
+    - $HOME/.m2
+before_install:
+  - mvn clean -q
+install:
+  - mvn install -Dgpg.skip=true
