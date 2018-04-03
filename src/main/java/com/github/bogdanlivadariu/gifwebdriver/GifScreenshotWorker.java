@@ -164,7 +164,7 @@ public class GifScreenshotWorker {
     }
 
     /**
-     * @return - Unique name generated used to store every screenshot & GIF as an unique file
+     * @return - Unique name generated used to store every screenshot and GIF as an unique file
      */
     public String getUniqueName() {
         return uniqueName;
