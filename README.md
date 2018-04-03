@@ -1,1 +1,1 @@
-# gif-webdriver [![Build Status](https://travis-ci.org/web-innovate/gif-webdriver.svg?branch=master)](https://travis-ci.org/web-innovate/gif-webdriver)
+# gif-webdriver [![Build Status](https://travis-ci.org/web-innovate/gif-webdriver.svg?branch=master)](https://travis-ci.org/web-innovate/gif-webdriver) [![codecov](https://codecov.io/gh/web-innovate/gif-webdriver/branch/master/graph/badge.svg)](https://codecov.io/gh/web-innovate/gif-webdriver)
