@@ -52,8 +52,9 @@ public class GifScreenshotWorker {
     }
 
     public GifScreenshotWorker(WebDriver driver, String rootDir, String screenshotsFolder,
-        String generatedGIFsFolderName) {
+        String generatedGIFsFolderName, boolean loopContinuously) {
         this.driver = driver;
+        this.loopContinuously = loopContinuously;
 
         setRootDir(rootDir + separator + getUniqueName());
         setScreenshotsFolderName(screenshotsFolder);

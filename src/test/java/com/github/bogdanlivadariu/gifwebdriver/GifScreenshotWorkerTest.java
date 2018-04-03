@@ -168,7 +168,7 @@ public class GifScreenshotWorkerTest {
     }
 
     public void testConstructor() {
-        worker = new GifScreenshotWorker(null, "root", "screens", "gifsLocation");
+        worker = new GifScreenshotWorker(null, "root", "screens", "gifsLocation", true);
 
         String expectedRoot = String.format("root/%s/", worker.getUniqueName());
         assertEquals(worker.getRootDir(), expectedRoot);

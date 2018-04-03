@@ -26,6 +26,13 @@ public class GifWebDriver extends AbstractWebDriverEventListener implements WebD
         gifScreenshotWorker = new GifScreenshotWorker(this.driver);
     }
 
+    public GifWebDriver(WebDriver driver, GifScreenshotWorker gifScreenshotWorker) {
+        EventFiringWebDriver handle = new EventFiringWebDriver(driver);
+        handle.register(this);
+        this.driver = handle;
+        this.gifScreenshotWorker = gifScreenshotWorker;
+    }
+
     @Override
     public void afterClickOn(WebElement element, WebDriver driver) {
         super.afterClickOn(element, driver);
