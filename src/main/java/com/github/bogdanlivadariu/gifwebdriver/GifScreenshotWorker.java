@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class GifScreenshotWorker {
 
-    final List<String> screenshotsTaken = new ArrayList<>();
+    private final List<String> screenshotsTaken = new ArrayList<>();
 
     private final Logger logger = LogManager.getLogger(GifScreenshotWorker.class);
 
@@ -61,6 +61,10 @@ public class GifScreenshotWorker {
         setGeneratedGIFsFolderName(generatedGIFsFolderName);
     }
 
+    public List<String> getScreenshotsTaken() {
+        return screenshotsTaken;
+    }
+
     /**
      * Takes a screenshot of the current page
      */
@@ -75,7 +79,7 @@ public class GifScreenshotWorker {
 
             logger.info(String.format("Screenshot taken at: '%s'", screenshotFile.getAbsolutePath()));
 
-            screenshotsTaken.add(screenshotFile.getAbsolutePath());
+            getScreenshotsTaken().add(screenshotFile.getAbsolutePath());
         } catch (Throwable e) {
             logger.warn("Screenshot could not be taken or saved");
             logger.trace(e);
@@ -88,13 +92,13 @@ public class GifScreenshotWorker {
      * @return - generated GIF {@link File}, null when the gif could not be generated due to lack of screenshots
      */
     public File createGif() {
-        if (screenshotsTaken.isEmpty()) {
+        if (getScreenshotsTaken().isEmpty()) {
             logger.info("There are no screenshots to process");
             return null;
         }
 
         try {
-            BufferedImage firstImage = ImageIO.read(new File(screenshotsTaken.get(0)));
+            BufferedImage firstImage = ImageIO.read(new File(getScreenshotsTaken().get(0)));
 
             File outputFile = new File(getGeneratedGIFsFolderName() + uniqueName + ".gif");
 
@@ -112,8 +116,8 @@ public class GifScreenshotWorker {
                 getTimeBetweenFramesInMilliseconds(),
                 isLoopContinuously());
 
-            for (int i = 1; i < screenshotsTaken.size(); i++) {
-                BufferedImage nextImage = ImageIO.read(new File(screenshotsTaken.get(i)));
+            for (int i = 1; i < getScreenshotsTaken().size(); i++) {
+                BufferedImage nextImage = ImageIO.read(new File(getScreenshotsTaken().get(i)));
 
                 gif.writeToSequence(nextImage);
             }
@@ -124,7 +128,7 @@ public class GifScreenshotWorker {
             logger.info(String.format("Gif created at: '%s'", outputFile.getAbsolutePath()));
 
             // we don't want to have same images in a new gif :)
-            screenshotsTaken.clear();
+            getScreenshotsTaken().clear();
 
             return outputFile;
         } catch (Throwable e) {
