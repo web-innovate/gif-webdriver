@@ -1,10 +1,7 @@
 package com.github.bogdanlivadariu.gifwebdriver;
 
 import org.mockito.InOrder;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.*;
@@ -109,6 +106,28 @@ public class GifWebDriverTest {
         element.getCssValue("display");
         element.clear();
         element.submit();
+
+        verify(workerMock, times(0)).takeScreenshot();
+    }
+
+    public void noScreenshotsDuringOtherWDApiCalls() {
+        GifScreenshotWorker workerMock = mock(GifScreenshotWorker.class);
+
+        WebDriver driver = mock(WebDriver.class,
+            withSettings().extraInterfaces(TakesScreenshot.class, JavascriptExecutor.class));
+
+        GifWebDriver gif = new GifWebDriver(driver, workerMock);
+        GifWebDriver gifSpy = spy(gif);
+
+        gifSpy.getTitle();
+        gifSpy.get("http://foo");
+        gifSpy.getCurrentUrl();
+        gifSpy.getPageSource();
+        gifSpy.getWindowHandle();
+        gifSpy.getWindowHandles();
+        gifSpy.switchTo();
+        gifSpy.navigate();
+        gifSpy.manage();
 
         verify(workerMock, times(0)).takeScreenshot();
     }
