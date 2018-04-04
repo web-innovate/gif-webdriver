@@ -34,13 +34,8 @@ public class GifWebDriver extends AbstractWebDriverEventListener implements WebD
     }
 
     @Override
-    public void afterClickOn(WebElement element, WebDriver driver) {
-        super.afterClickOn(element, driver);
-    }
-
-    @Override
     public void beforeClickOn(WebElement element, WebDriver driver) {
-        gifScreenshotWorker.takeScreenshot();
+        getGifScreenshotWorker().takeScreenshot();
         super.beforeClickOn(element, driver);
     }
 
@@ -76,14 +71,14 @@ public class GifWebDriver extends AbstractWebDriverEventListener implements WebD
 
     @Override
     public void close() {
-        gifScreenshotWorker.takeScreenshot();
+        getGifScreenshotWorker().takeScreenshot();
         driver.close();
     }
 
     @Override
     public void quit() {
-        gifScreenshotWorker.takeScreenshot();
-        gifScreenshotWorker.createGif();
+        getGifScreenshotWorker().takeScreenshot();
+        getGifScreenshotWorker().createGif();
         driver.quit();
     }
 

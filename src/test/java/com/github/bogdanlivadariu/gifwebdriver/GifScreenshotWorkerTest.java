@@ -1,7 +1,6 @@
 package com.github.bogdanlivadariu.gifwebdriver;
 
 import org.apache.commons.io.FileUtils;
-import org.mockito.Mock;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -15,14 +14,13 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 @Test
 public class GifScreenshotWorkerTest {
-    @Mock
-    private WebDriver driver;
 
     private GifScreenshotWorker worker;
 
@@ -41,19 +39,22 @@ public class GifScreenshotWorkerTest {
 
     @AfterMethod
     private void tearDown() throws IOException {
-        File root = new File(worker.getRootDir());
+        try {
+            File root = new File(worker.getRootDir());
 
-        if (root.getParentFile() != null && root.getParentFile().exists()) {
-            FileUtils.deleteDirectory(root.getParentFile());
-        } else {
-            FileUtils.deleteDirectory(root);
+            if (root.getParentFile() != null && root.getParentFile().exists()) {
+                FileUtils.deleteDirectory(root.getParentFile());
+            } else {
+                FileUtils.deleteDirectory(root);
+            }
+        } catch (Exception ignored) {
         }
     }
 
     public void testTakeScreenshotOnNullDriver() {
         try {
             worker.takeScreenshot();
-            assertTrue(worker.screenshotsTaken.isEmpty());
+            assertTrue(worker.getScreenshotsTaken().isEmpty());
         } catch (Throwable t) {
             fail("This should not happen", t);
         }
@@ -71,9 +72,9 @@ public class GifScreenshotWorkerTest {
 
         verify(((TakesScreenshot) driver), times(3)).getScreenshotAs(OutputType.BYTES);
 
-        assertEquals(worker.screenshotsTaken.size(), 3);
+        assertEquals(worker.getScreenshotsTaken().size(), 3);
 
-        worker.screenshotsTaken.forEach(item -> {
+        worker.getScreenshotsTaken().forEach(item -> {
             File file = new File(item);
 
             assertTrue(file.exists());
@@ -174,5 +175,31 @@ public class GifScreenshotWorkerTest {
         assertEquals(worker.getRootDir(), expectedRoot);
         assertEquals(worker.getScreenshotsFolderName(), expectedRoot + "screens/");
         assertEquals(worker.getGeneratedGIFsFolderName(), expectedRoot + "gifsLocation/");
+    }
+
+    public void createGifNoScreenshots() {
+        worker = mock(GifScreenshotWorker.class);
+
+        when(worker.getScreenshotsTaken()).thenReturn(new ArrayList<>());
+
+        assertNull(worker.createGif());
+    }
+
+    public void createGifException() {
+        WebDriver driver = mock(WebDriver.class, withSettings().extraInterfaces(TakesScreenshot.class));
+
+        when(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES))
+            .thenReturn(new byte[1]);
+
+        worker = new GifScreenshotWorker(driver);
+
+        GifScreenshotWorker spy = spy(worker);
+
+        spy.takeScreenshot();
+        spy.takeScreenshot();
+
+        when(spy.getGeneratedGIFsFolderName()).thenThrow(new NullPointerException());
+
+        assertNull(spy.createGif());
     }
 }
